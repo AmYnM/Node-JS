@@ -1,4 +1,6 @@
-const products = [];
+// no product array related logic left
+// create instead a class
+const Product = require('../models/product'); 
 
 exports.getAddProduct = (req, res, next) => {   // export with the name of your wish
     // res.sendFile(path.join(rootDir, 'views', 'add-product.html'));
@@ -14,13 +16,15 @@ exports.getAddProduct = (req, res, next) => {   // export with the name of your 
   };
 
 exports.postProduct = (req, res, next) => {
-    products.push({ title: req.body.title }); // as the products are not in this file, we should add the products empty array here in the top
+    const product = new Product(req.body.title);        // Here the title is from the input type and input name in add-product ejs file
+    product.save(); // this will use the save method used in model file
     res.redirect('/');
   };
 
 exports.getproducts = (req, res, next) => {
     //   console.log('shop.js', adminData.products);
     //   res.sendFile(path.join(rootDir, 'views', 'shop.html'))'
+    const products = Product.fetchAll();
     res.render('shop', {
      prods: products, 
      pageTitle: 'Shop', 
