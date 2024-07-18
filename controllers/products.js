@@ -24,14 +24,16 @@ exports.postProduct = (req, res, next) => {
 exports.getproducts = (req, res, next) => {
     //   console.log('shop.js', adminData.products);
     //   res.sendFile(path.join(rootDir, 'views', 'shop.html'))'
-    const products = Product.fetchAll();
-    res.render('shop', {
-     prods: products, 
-     pageTitle: 'Shop', 
-    path: '/', 
-     hasProduct: products.length > 0,
+    Product.fetchAll((products) => {
+      res.render('shop',{
+        prods: products, 
+        pageTitle: 'Shop', 
+        path: '/', 
+        hasProduct: products.length > 0,
         activeShop: true,
         productCSS: true,
         layout: false
-    }); //Adding new key value pair "hasProduct" that have the key to check true or false
+       }); //Adding new key value pair "hasProduct" that have the key to check true or false
+    });
+
 };
