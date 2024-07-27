@@ -27,6 +27,8 @@ module.exports = class Product {
   }
 
   save() {
+    // get product.id(dummy value)
+    this.id = Math.random().toString();
     // instead of the above code, we use getProductsFromFile()
     getProductsFromFile(products => {
       products.push(this);
