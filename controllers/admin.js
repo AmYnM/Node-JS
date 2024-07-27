@@ -13,8 +13,13 @@ exports.getAddProduct = (req, res, next) => {   // export with the name of your 
       });
   };
 
-exports.postProduct = (req, res, next) => {
-    const product = new Product(req.body.title);        // Here the title is from the input type and input name in add-product ejs file
+exports.postAddProduct = (req, res, next) => {
+    const title = req.body.title;  
+    const imageUrl = req.body.imageUrl;
+    const price = req.body.price;
+    const description = req.body.description;
+    
+    const product = new Product(title, imageUrl, price, description); 
     product.save(); // this will use the save method used in model file
     res.redirect('/');
 };
