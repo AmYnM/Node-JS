@@ -2,9 +2,9 @@ const fs = require('fs');
 const path = require('path');
 
 const p = path.join(
-    path.dirname(require.main.filename),
-    'data',
-    'cart.json'
+  path.dirname(require.main.filename),
+  'data',
+  'cart.json'
 );
 
 module.exports = class Cart {
@@ -15,6 +15,10 @@ module.exports = class Cart {
       if (!err) {
         cart = JSON.parse(fileContent);
       }
+
+      // Ensure totalPrice is a number
+      cart.totalPrice = cart.totalPrice || 0;
+
       // Analyze the cart => Find existing product
       const existingProductIndex = cart.products.findIndex(
         prod => prod.id === id
@@ -31,13 +35,16 @@ module.exports = class Cart {
         updatedProduct = { id: id, qty: 1 };
         cart.products = [...cart.products, updatedProduct];
       }
-      cart.totalPrice = cart.totalPrice + + productPrice;
+      cart.totalPrice = cart.totalPrice + +productPrice;
       fs.writeFile(p, JSON.stringify(cart), err => {
-         console.log(err);
-       });
+        if (err) {
+          console.log(err);
+        }
       });
-    }
+    });
+  }
 };
+
 // Steps to follow
 // 1. Fetch the previous cart
 // 2. Analyze the cart => Find existing product
